@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Onitama.Api</name>
+    </assembly>
+    <members>
+        <member name="P:Onitama.Api.Controllers.ApiControllerBase.UserId">
+            <summary>
+            Returns the id (Guid) of the authenticated user / player.
+            If no user is authenticated an empty guid is returned.
+            </summary>
+        </member>
+        <member name="M:Onitama.Api.Controllers.AuthenticationController.Register(Onitama.Api.Models.Input.RegisterModel)">
+            <summary>
+            Registers a new user in the database.
+            </summary>
+        </member>
+        <member name="M:Onitama.Api.Controllers.AuthenticationController.CreateToken(Onitama.Api.Models.Input.LoginModel)">
+            <summary>
+            Returns an object containing a (bearer) token that will be valid for 60 minutes.
+            The token should be added in the Authorization header of each http request for which the user must be authenticated.
+            The Id and WariorName of the player are also included in the object.
+            </summary>
+            <example>Authorization bearer [token]</example>
+        </member>
+        <member name="T:Onitama.Api.Controllers.GamesController">
+            <summary>
+            Provides game-play functionality.
+            </summary>
+        </member>
+        <member name="M:Onitama.Api.Controllers.GamesController.GetGame(System.Guid)">
+            <summary>
+            Gets information about your game
+            </summary>
+            <param name="id">Id (guid) of the game</param>
+        </member>
+        <member name="M:Onitama.Api.Controllers.GamesController.GetPossibleMovesForPawn(System.Guid,System.Guid,System.String)">
+            <summary>
+            Gets the possible moves of a certain pawn for a certain move card.
+            The pawn must be owned by the player associated with the authenticated user.
+            </summary>
+            <param name="id">Id (guid) of the game</param>
+            <param name="pawnId">Id (guid) of the pawn that possibly is going to make a move</param>
+            <param name="moveCardName">The name of the card this possibly is going to be used</param>
+        </member>
+        <member name="M:Onitama.Api.Controllers.GamesController.MovePawn(System.Guid,Onitama.Api.Models.Input.MovePawnModel)">
+            <summary>
+            Moves a pawn for the player associated with the authenticated user.
+            </summary>
+            <param name="id">Id (guid) of the game</param>
+            <param name="inputModel">
+            Information about the move the player wants to make.
+            </param>
+        </member>
+        <member name="M:Onitama.Api.Controllers.GamesController.SkipMovement(System.Guid,Onitama.Api.Models.Input.SkipMovementModel)">
+            <summary>
+            States that the player associated with the authenticated user wants to skip their movement and only exchange a card.
+            </summary>
+            <param name="id">Id (guid) of the game</param>
+            <param name="inputModel">
+            Information about the card you want to exchange.
+            </param>
+        </member>
+        <member name="M:Onitama.Api.Controllers.TablesController.GetTableById(System.Guid)">
+            <summary>
+            Gets a specific table by its id.
+            </summary>
+        </member>
+        <member name="M:Onitama.Api.Controllers.TablesController.GetTablesWithAvailableSeats">
+            <summary>
+            Gets all the tables that are available to join.
+            </summary>
+        </member>
+        <member name="M:Onitama.Api.Controllers.TablesController.AddNew(Onitama.Core.TableAggregate.TablePreferences)">
+            <summary>
+            Adds a new table to the system. The user that creates the table is automatically seated.
+            </summary>
+            <param name="preferences">
+            Contains info about the type of game you want to play.
+            </param>
+            <remarks>Tables are automatically removed from the system after 15 minutes.</remarks>
+        </member>
+        <member name="M:Onitama.Api.Controllers.TablesController.Join(System.Guid)">
+            <summary>
+            Adds the user to an available seat at an existing table. The user that creates the table is automatically seated.
+            </summary>
+            <param name="id">
+            The unique identifier of the table.
+            </param>
+        </member>
+        <member name="M:Onitama.Api.Controllers.TablesController.FillWithArtificialPlayers(System.Guid)">
+            <summary>
+            Fills the remaining available seats of a table with computer players.
+            Only the owner of the table is allowed to do this.
+            </summary>
+            <param name="id">
+            The unique identifier of the table.
+            </param>
+        </member>
+        <member name="M:Onitama.Api.Controllers.TablesController.Leave(System.Guid)">
+            <summary>
+            Removes the user that is logged in from a table.
+            If no players are left at the table, the table is removed from the system.
+            </summary>
+            <param name="id">
+            The unique identifier of the table.
+            </param>
+        </member>
+        <member name="M:Onitama.Api.Controllers.TablesController.StartGame(System.Guid)">
+            <summary>
+            Starts a game for the table.
+            Only the owner of the table can start the game.
+            A game can only be started if the required number of players are seated.
+            </summary>
+            <param name="id">
+            The unique identifier of the table.
+            </param>
+        </member>
+    </members>
+</doc>

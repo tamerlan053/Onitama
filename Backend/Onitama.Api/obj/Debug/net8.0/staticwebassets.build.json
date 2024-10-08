@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "lD1CYSm7zPNcALJZk7gKtrZ6eJVbXLIU8Vf9q872Gys=",
+  "Source": "Onitama.Api",
+  "BasePath": "_content/Onitama.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

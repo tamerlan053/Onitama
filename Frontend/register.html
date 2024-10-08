@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Onitama</title>
+    <link rel="stylesheet" href="style/index.css">
+    <link rel="stylesheet" href="../Frontend/style/myFonts.css">
+
+</head>
+<body>
+    
+    <a href="index.html" class="fixed-image-wrapper">
+    <img src="../Frontend/site-images/Onitama_Logo.svg.png" class="onitama-home" alt="Onitama" onclick="">
+    </a>
+
+<div class="container-fluid flex">
+
+    <form class="form-control" action="">
+        <p class="title">Register</p>
+        <div class="input-field">
+            <input  required="" class="input" type="text" name="wariorName"  id="wariorName"/>
+            <label class="label" for="wariorName">Enter Name</label>
+        </div>
+        <div class="input-field">
+            <input required="" class="input" type="email" id="email" name="email" />
+            <label class="label" for="email">Enter Email</label>
+        </div>
+        <div class="input-field">
+            <input required="" class="input" type="password" id="password" name="password" />
+            <label class="label" for="password">Enter Password</label>
+        </div>
+        <div class="input-field">
+            <input required="" class="input" type="password" id="confirmPassword" name="confirmPassword"/>
+            <label class="label" for="confirmPassword">Confirm Password</label>
+        </div>
+        <label id="error"></label>
+        <div id="div_output"></div>
+
+        <button class="submit-btn" onclick="" >Register</button>
+        <p>Already have an account? <a href="index.html">Login</a></p>
+    </form>
+
+</div>
+
+<script src="js/register.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

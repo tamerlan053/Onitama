@@ -1,0 +1,307 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Blaka&display=swap');
+
+*{
+  box-sizing: border-box;
+}
+
+.onitama-home {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 9999; /* Ensures the image stays on top */
+  width: 10em;
+  transition: transform 0.3s ease; /* Smooth transition effect */
+}
+.onitama-home:hover {
+  transform: scale(1.04); /* Zoom in effect on hover */
+}
+
+
+.scrolbox{
+  display: block;
+  width: 75%;
+  height: 60%;
+  padding: 1em;
+  overflow-y: scroll;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.464);
+  border-radius: 20px;
+}
+
+
+html, body {
+    margin: 0;
+    height: 100%;
+   }
+
+body{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+    background-image: url("../site-images/pngtree-ancient-style-ink-bamboo-chinese-style-poster-background-picture-image_1498244.jpg");
+    background-size: cover;
+    background-position: center top;
+    
+}
+
+
+h1{
+  font-family: Hogata; /* Use the custom font */
+  font-weight: 200;
+  font-style: normal;
+  color: #000000;
+  font-size: 4rem;
+  margin: 0;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.279); /* Add a slight shadow */
+
+}
+
+.flex{
+  display: flex;
+  align-items: baseline; /* Center items vertically */
+}
+
+.lobby-item {
+  font-family: Hogata; /* Use the custom font */
+  font-weight: 200;
+  font-style: normal;
+
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+  display: flex; /* Use flexbox for layout */
+  justify-content: space-between; /* Space items evenly */
+  align-items: baseline; /* Center items vertically */
+}
+.lobby-item h3 {
+  margin-top: 0;
+  margin-bottom: 5px;
+  margin-left: 20px;
+  font-size: 20px;
+  font-size: 1.6rem; /* Increased font size for title */
+}
+.lobby-item p {
+  margin: 5px 0;
+  font-size: 1.6rem;
+}
+.lobby-name {
+  color: #333;
+  font-weight: bold;
+  font-size: 1.6rem;
+}
+.player-name {
+  color: #666;
+  font-size: 1.6rem;
+}
+
+.flex p{
+  margin-left: 50px;
+}
+
+
+
+.lobby-item button {
+  font-family: Hogata; /* Use the custom font */
+  font-weight: 200;
+  font-style: normal;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 50px;
+  border-radius: 8px;
+  border: 0;
+  outline: 0;
+  font-size: 1.6rem;
+  background: rgb(10, 212, 34);
+  color: #fff;
+  margin-right: 15px;
+}
+.logout {
+  font-family: Hogata; /* Use the custom font */
+  font-weight: 200;
+  font-style: normal;
+  width: 100px;
+  height: 45px;
+  border-radius: 8px;
+  border: 0;
+  outline: 0;
+  font-size: 1.6rem;
+  background-color: black;
+  color: #fff;
+  position: fixed; /* Positioning the button */
+  bottom: 15px; /* Distance from the bottom of the viewport */
+  left: 15px; /* Distance from the left of the viewport */
+  transition: 0.3s;
+
+}
+.logout:hover {
+  transform: scale(1.04); /* Zoom in effect on hover */
+}
+
+svg {
+  margin: 0 0 0 10px;
+}
+
+.lobby-item button:hover svg {
+  margin: 0 0 0 25px;
+  transition: 0.3s;
+}
+
+.lobby-item button:not(:hover) svg {
+  transition: 0.3s;
+}
+
+.lobby-item button:active {
+  transform: scale(0.95, 0.95);
+  transition: 200ms;
+}
+
+.lobby-item button:not(:active) {
+  transition: 200ms;
+}
+
+
+
+
+/* Modal */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.548); /* Fallback color */  
+}
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 25%; /* Could be more or less, depending on screen size */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add shadow */
+  font-family: Hogata;
+  font-size: 1.25rem;
+  border-radius: 10px;
+}
+/* Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+.modal-content h2{
+  margin: 0;
+  margin-bottom: 20px;
+}
+
+#lobbyNameInput{
+  width: 100%;
+  height: 42px;
+  padding-left: 12px;
+  border-radius: 5px;
+  outline: none;
+  border: 1px solid #e5e5e5;
+  filter: drop-shadow(0px 1px 0px #efefef)
+    drop-shadow(0px 1px 0.5px rgba(239, 239, 239, 0.5));
+  transition: all 0.3s cubic-bezier(0.15, 0.83, 0.66, 1);
+}
+#lobbyNameInput:focus{
+  border: 1px solid transparent;
+  box-shadow: 0px 0px 0px 1px #2B2B2F;
+  background-color: transparent;
+}
+#createLobbyBtn{
+  width: 100%;
+  height: 42px;
+  background: linear-gradient(0deg, rgba(47,47,47,1) 0%, rgba(15,15,15,1) 50%, rgba(42,40,38,1) 100%);
+  box-shadow: 0px 0.5px 0.5px #EFEFEF, 0px 1px 0.5px rgba(239, 239, 239, 0.5);
+  border-radius: 5px;
+  border: 0;
+  font-weight: 600;
+  font-size: 12px;
+  color: #ffffff;
+  margin-top: 10px;
+  transition: background-color 0.9s, transform 0.3s; /* Add transition effect */
+}
+#createLobbyBtn:hover {
+  transform: translateY(-2px); /* Move button slightly upwards on hover */
+}
+
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+ .OpenLobbyModalButton {
+  font-family: Hogata; /* Use the custom font */
+  font-weight: 200;
+  font-style: normal;
+  font-size: 25px;
+  padding-top: 0.8em;
+  padding-bottom: 0.8em;
+  padding-left: 1em;
+  padding-right: 1em;
+  font-weight: 500;
+  background: linear-gradient(0deg, rgba(47,47,47,1) 0%, rgba(15,15,15,1) 50%, rgba(42,40,38,1) 100%);
+  color: white;
+  border: none;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.6em;
+  cursor: pointer;
+}
+.gradient {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  border-radius: 0.6em;
+  margin-top: -0.25em;
+  background-image: linear-gradient(
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.3)
+  );
+}
+.label {
+  position: relative;
+  top: -1px;
+}
+.transition {
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  transition-duration: 500ms;
+  background-color: rgba(100, 100, 100, 0.503);
+  border-radius: 9999px;
+  width: 0;
+  height: 0;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.OpenLobbyModalButton:hover .transition {
+  width: 14em;
+  height: 14em;
+}
+.OpenLobbyModalButton:active {
+  transform: scale(0.97);
+}
+#errormessagediv{
+  margin-bottom: 0px;
+  margin-top: 10px;
+}
+

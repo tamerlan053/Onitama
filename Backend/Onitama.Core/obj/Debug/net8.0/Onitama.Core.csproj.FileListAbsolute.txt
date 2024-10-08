@@ -1,0 +1,15 @@
+C:\Users\Tim\Documents\Repos\Backend\Onitama.Core\bin\Debug\net8.0\Onitama.Core.deps.json
+C:\Users\Tim\Documents\Repos\Backend\Onitama.Core\bin\Debug\net8.0\Onitama.Core.dll
+C:\Users\Tim\Documents\Repos\Backend\Onitama.Core\bin\Debug\net8.0\Onitama.Core.pdb
+C:\Users\Tim\Documents\Repos\Backend\Onitama.Core\bin\Debug\net8.0\Onitama.Core.xml
+C:\Users\Tim\Documents\Repos\Backend\Onitama.Core\obj\Debug\net8.0\Onitama.Core.csproj.AssemblyReference.cache
+C:\Users\Tim\Documents\Repos\Backend\Onitama.Core\obj\Debug\net8.0\Onitama.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Tim\Documents\Repos\Backend\Onitama.Core\obj\Debug\net8.0\Onitama.Core.AssemblyInfoInputs.cache
+C:\Users\Tim\Documents\Repos\Backend\Onitama.Core\obj\Debug\net8.0\Onitama.Core.AssemblyInfo.cs
+C:\Users\Tim\Documents\Repos\Backend\Onitama.Core\obj\Debug\net8.0\Onitama.Core.csproj.CoreCompileInputs.cache
+C:\Users\Tim\Documents\Repos\Backend\Onitama.Core\obj\Debug\net8.0\Onitama.Core.sourcelink.json
+C:\Users\Tim\Documents\Repos\Backend\Onitama.Core\obj\Debug\net8.0\Onitama.Core.dll
+C:\Users\Tim\Documents\Repos\Backend\Onitama.Core\obj\Debug\net8.0\refint\Onitama.Core.dll
+C:\Users\Tim\Documents\Repos\Backend\Onitama.Core\obj\Debug\net8.0\Onitama.Core.xml
+C:\Users\Tim\Documents\Repos\Backend\Onitama.Core\obj\Debug\net8.0\Onitama.Core.pdb
+C:\Users\Tim\Documents\Repos\Backend\Onitama.Core\obj\Debug\net8.0\ref\Onitama.Core.dll

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Onitama</title>
+	<link rel="stylesheet" href="style/room.css">
+</head>
+<body>
+<div id="spelbeurt" class="spelbeurt"></div>
+<div id="outputdiv" class="outputdiv"></div>
+<button id="startButton">Start Game</button>
+<button id="skipButton" style="display: none">Skip</button>
+<button id="leaveButton">Leave Game</button>
+<div class="onitama-table">
+	<div class="opponent" id="opponent2">
+		<img src="developers-img/developer2.png" alt="Opponent 2">
+	</div>
+	<div class="my-cards">
+	
+	</div>
+	<div class="board">
+		<table id = 'board'>
+			<tr>
+				<td id="row0-0" class="playboard"></td>
+				<td id="row0-1" class="playboard"></td>
+				<td id="row0-2" class="playboard"></td>
+				<td id="row0-3" class="playboard"></td>
+				<td id="row0-4" class="playboard"></td>
+			</tr>
+			<tr>
+				<td id="row1-0" class="playboard"></td>
+				<td id="row1-1" class="playboard"></td>
+				<td id="row1-2" class="playboard"></td>
+				<td id="row1-3" class="playboard"></td>
+				<td id="row1-4" class="playboard"></td>
+			</tr>
+			<tr>
+				<td id="row2-0" class="playboard"></td>
+				<td id="row2-1" class="playboard"></td>
+				<td id="row2-2" class="playboard"></td>
+				<td id="row2-3" class="playboard"></td>
+				<td id="row2-4" class="playboard"></td>
+			</tr>
+			<tr>
+				<td id="row3-0" class="playboard"></td>
+				<td id="row3-1" class="playboard"></td>
+				<td id="row3-2" class="playboard"></td>
+				<td id="row3-3" class="playboard"></td>
+				<td id="row3-4" class="playboard"></td>
+			</tr>
+			<tr>
+				<td id="row4-0" class="playboard"></td>
+				<td id="row4-1" class="playboard"></td>
+				<td id="row4-2" class="playboard"></td>
+				<td id="row4-3" class="playboard"></td>
+				<td id="row4-4" class="playboard"></td>
+			</tr>
+		</table>
+	</div>
+	<div class="opponent-cards">
+	
+	</div>
+	<div class="opponent" id="opponent1">
+		<img src="developers-img/developer1.png" alt="Opponent 1">
+	
+	</div>
+	<div id="outputdiv1"></div>
+	<div class="extra" id="extra">
+	</div>
+</div>
+
+<script src="js/room.js"></script>
+</body>
+</html>

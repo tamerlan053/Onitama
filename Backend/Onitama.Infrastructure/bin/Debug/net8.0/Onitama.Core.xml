@@ -1,0 +1,693 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Onitama.Core</name>
+    </assembly>
+    <members>
+        <member name="P:Onitama.Core.GameAggregate.Contracts.IGame.Id">
+            <summary>
+            The unique identifier of the game
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.GameAggregate.Contracts.IGame.PlayMat">
+            <summary>
+            The play mat
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.GameAggregate.Contracts.IGame.ExtraMoveCard">
+            <summary>
+            The one card (of the 5) that is not with any player
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.GameAggregate.Contracts.IGame.Players">
+            <summary>
+            The players. In a normal game there are 2 players.
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.GameAggregate.Contracts.IGame.PlayerToPlayId">
+            <summary>
+            The unique identifier of the player who's turn it is
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.GameAggregate.Contracts.IGame.WinnerPlayerId">
+            <summary>
+            The unique identifier of the player that has won the game.
+            If no player has won yet, this will be an empty Guid (00000000-0000-0000-0000-000000000000).
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.GameAggregate.Contracts.IGame.WinnerMethod">
+            <summary>
+            Indicates how the game was won. 'By way of the stone' or 'by way of the wind'.
+            If no player has won yet, this is an empty string. 
+            </summary>
+        </member>
+        <member name="M:Onitama.Core.GameAggregate.Contracts.IGame.GetPossibleMovesForPawn(System.Guid,System.Guid,System.String)">
+            <summary>
+            Returns all the moves a player can make for a specific pawn and move card.
+            </summary>
+            <param name="playerId">Unique identifier of the player</param>
+            <param name="pawnId">Unique identifier of the pawn</param>
+            <param name="moveCardName">Name of the move card (e.g. "Dragon")</param>
+        </member>
+        <member name="M:Onitama.Core.GameAggregate.Contracts.IGame.GetAllPossibleMovesFor(System.Guid)">
+            <summary>
+            Returns all the moves a player can make for all his pawns and his two move cards.
+            </summary>
+            <param name="playerId">Unique identifier of the player</param>
+        </member>
+        <member name="M:Onitama.Core.GameAggregate.Contracts.IGame.MovePawn(System.Guid,System.Guid,System.String,Onitama.Core.Util.Contracts.ICoordinate)">
+            <summary>
+            Moves a pawn on the play mat.
+            </summary>
+            <param name="playerId">Unique identifier of the player that is making the move</param>
+            <param name="pawnId">Unique identifier of the pawn</param>
+            <param name="moveCardName">Name of the move card (e.g. "Mantis")</param>
+            <param name="to">Target coordinate on the play mat</param>
+        </member>
+        <member name="M:Onitama.Core.GameAggregate.Contracts.IGame.SkipMovementAndExchangeCard(System.Guid,System.String)">
+            <summary>
+            When a player cannot move any of his pawns, he can skip his movement,
+            but he must exchange one of his move cards.
+            </summary>
+            <param name="playerId">Unique identifier of the player</param>
+            <param name="moveCardName">Name of the move card (e.g. "Boar")</param>
+        </member>
+        <member name="M:Onitama.Core.GameAggregate.Contracts.IGame.GetNextOpponent(System.Guid)">
+            <summary>
+            Returns the player who's turn it is after a certain player.
+            For a 2 player game, this will be the other player.
+            For a 4 player game, this will be the next player in the circle (EXTRA).
+            </summary>
+            <param name="playerId">Unique identifier of the player</param>
+        </member>
+        <member name="T:Onitama.Core.GameAggregate.Contracts.IGameEvaluator">
+            <summary>
+            Can give a score on a game. The score indicates who is winning.
+            </summary>
+            <remarks>This is an EXTRA. Not needed to implement the minimal requirements.</remarks>
+        </member>
+        <member name="M:Onitama.Core.GameAggregate.Contracts.IGameEvaluator.CalculateScore(Onitama.Core.GameAggregate.Contracts.IGame,System.Guid)">
+            <summary>
+            Calculates a score for a <see cref="T:Onitama.Core.GameAggregate.Contracts.IGame"/>.
+            The score indicates how likely is is that the <paramref name="maximizingPlayerId"/> is going to win.
+            If the <paramref name="maximizingPlayerId"/> is winning the score will be positive.
+            If the <paramref name="maximizingPlayerId"/> is losing the score will be negative.
+            </summary>
+            <param name="game">The game</param>
+            <param name="maximizingPlayerId">
+            The identifier of the player that tries to get a score as high as possible.
+            The minimizing player (the other player) is winning when the score is negative.
+            </param>
+            <returns>
+            0 if nobody has the upper hand.
+            A positive score if the maximizing player has the upper hand. The higher the score, the more likely the maximizing player is going to win.
+            A negative score if the minimizing player has the upper hand. The lower the score, the more likely the minimizing player is going to win.
+            int.MinValue when the minimizing player has won.
+            int.MaxValue when the maximizing player has won.
+            </returns>
+        </member>
+        <member name="P:Onitama.Core.GameAggregate.Contracts.IMove.Pawn">
+            <summary>
+            The pawn that is moved.
+            The pawn can be null when the move only consists of a card swap (because there are no pawns that can be moved).
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.GameAggregate.Contracts.IMove.PlayerDirection">
+            <summary>
+            The direction in which the player (the owner of the pawn) is playing
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.GameAggregate.Contracts.IMove.To">
+            <summary>
+            The coordinate the pawn is moved to.
+            The coordinate can be null when the move only consists of a card swap (because there are no pawns that can be moved).
+            </summary>
+        </member>
+        <member name="T:Onitama.Core.GameAggregate.Game">
+            <inheritdoc cref="T:Onitama.Core.GameAggregate.Contracts.IGame"/>
+        </member>
+        <member name="M:Onitama.Core.GameAggregate.Game.#ctor(System.Guid,Onitama.Core.PlayMatAggregate.Contracts.IPlayMat,Onitama.Core.PlayerAggregate.Contracts.IPlayer[],Onitama.Core.MoveCardAggregate.Contracts.IMoveCard)">
+            <summary>
+            Creates a new game and determines the player to play first.
+            </summary>
+            <param name="id">The unique identifier of the game</param>
+            <param name="playMat">
+            The play mat
+            (with the schools of the player already positioned on it)
+            </param>
+            <param name="players">
+            The 2 players that will play the game
+            (with 2 move cards each)
+            </param>
+            <param name="extraMoveCard">
+            The fifth card used to exchange cards after the first move
+            </param>
+        </member>
+        <member name="M:Onitama.Core.GameAggregate.Game.#ctor(Onitama.Core.GameAggregate.Contracts.IGame)">
+            <summary>
+            Creates a game that is a copy of another game.
+            </summary>
+            <remarks>
+            This is an EXTRA. Not needed to implement the minimal requirements.
+            To make the mini-max algorithm for an AI game play strategy work, this constructor should be implemented.
+            </remarks>
+        </member>
+        <member name="T:Onitama.Core.GameAggregate.GameEvaluator">
+            <inheritdoc cref="T:Onitama.Core.GameAggregate.Contracts.IGameEvaluator"/>
+        </member>
+        <member name="P:Onitama.Core.MoveCardAggregate.Contracts.IMoveCard.Name">
+            <summary>
+            Name of the card.
+            This is the unique identifier of the card.
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.MoveCardAggregate.Contracts.IMoveCard.Grid">
+            <summary>
+            The 5x5 grid of the card.
+            Row 0 and column 0 is the bottom left corner.
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.MoveCardAggregate.Contracts.IMoveCard.StampColor">
+            <summary>
+            The color of the stamp on the card.
+            It should be a color of one of the players in the game.
+            </summary>
+        </member>
+        <member name="M:Onitama.Core.MoveCardAggregate.Contracts.IMoveCard.GetPossibleTargetCoordinates(Onitama.Core.Util.Contracts.ICoordinate,Onitama.Core.Util.Direction,System.Int32)">
+            <summary>
+            Uses the <see cref="P:Onitama.Core.MoveCardAggregate.Contracts.IMoveCard.Grid"/> of the card
+            to determine all possible moves (of a pawn) from a start coordinate on the play mat
+            when playing in a certain direction.
+            </summary>
+            <param name="startCoordinate">The start coordinate (of a pawn) from which a move is started</param>
+            <param name="playDirection">
+            The direction in which the player is playing. E.g. when playing South, the grid of the card should be interpreted upside down.
+            </param>
+            <param name="matSize">
+            The size of the play mat. This is important to determine if a target coordinate is out of bounds.
+            </param>
+        </member>
+        <member name="T:Onitama.Core.MoveCardAggregate.Contracts.IMoveCardFactory">
+            <summary>
+            Creates move cards.
+            </summary>
+        </member>
+        <member name="M:Onitama.Core.MoveCardAggregate.Contracts.IMoveCardFactory.Create(System.String,Onitama.Core.MoveCardAggregate.Contracts.MoveCardGridCellType[0:,0:],System.Drawing.Color[])">
+            <summary>
+            Creates a move card.
+            </summary>
+            <param name="name">The name of the card</param>
+            <param name="grid">The 5x5 grid that determines which moves are allowed for the card</param>
+            <param name="possibleStampColors">
+            A list of the color of each player. The stamp of move card get a random color from the possible colors. 
+            </param>
+        </member>
+        <member name="T:Onitama.Core.MoveCardAggregate.MoveCard">
+            <inheritdoc cref="T:Onitama.Core.MoveCardAggregate.Contracts.IMoveCard"/>
+        </member>
+        <member name="T:Onitama.Core.MoveCardAggregate.MoveCardFactory">
+            <inheritdoc cref="T:Onitama.Core.MoveCardAggregate.Contracts.IMoveCardFactory"/>
+        </member>
+        <member name="T:Onitama.Core.PlayerAggregate.ComputerPlayer">
+            <inheritdoc cref="T:Onitama.Core.PlayerAggregate.Contracts.IPlayer"/>
+        </member>
+        <member name="M:Onitama.Core.PlayerAggregate.ComputerPlayer.DetermineBestMove(Onitama.Core.GameAggregate.Contracts.IGame)">
+            <summary>
+            Uses gameplay strategy to determine the best move to execute.
+            </summary>
+            <param name="game">The game (in its current state)</param>
+        </member>
+        <member name="T:Onitama.Core.PlayerAggregate.Contracts.IGamePlayStrategy">
+            <summary>
+            A strategy for an AI player. The strategy can be used to determine a move for the AI player in a game.
+            </summary>
+            <remarks>This is an EXTRA. Not needed to implement the minimal requirements.</remarks>
+        </member>
+        <member name="M:Onitama.Core.PlayerAggregate.Contracts.IGamePlayStrategy.GetBestMoveFor(System.Guid,Onitama.Core.GameAggregate.Contracts.IGame)">
+            <summary>
+            Gets the best move to play for a player.
+            </summary>
+            <param name="playerId">Identifier of the (AI) player that wants to make a move.</param>
+            <param name="game">The game the (AI) player is in.</param>
+            <returns>
+            The best move according to the strategy.
+            </returns>
+        </member>
+        <member name="T:Onitama.Core.PlayerAggregate.Contracts.IPlayer">
+            <summary>
+            Represents a player in the game.
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.PlayerAggregate.Contracts.IPlayer.Id">
+            <summary>
+            Unique identifier of the player
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.PlayerAggregate.Contracts.IPlayer.Name">
+            <summary>
+            (Display) name of the player
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.PlayerAggregate.Contracts.IPlayer.Color">
+            <summary>
+            Color of the player
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.PlayerAggregate.Contracts.IPlayer.Direction">
+            <summary>
+            Direction in which the player is playing (north or south)
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.PlayerAggregate.Contracts.IPlayer.School">
+            <summary>
+            The school of the player (1 master and 4 students)
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.PlayerAggregate.Contracts.IPlayer.MoveCards">
+            <summary>
+            The move cards that the player can use to play its next move (2 of the 5 available)
+            </summary>
+        </member>
+        <member name="T:Onitama.Core.PlayerAggregate.HumanPlayer">
+            <inheritdoc cref="T:Onitama.Core.PlayerAggregate.Contracts.IPlayer"/>
+        </member>
+        <member name="T:Onitama.Core.PlayerAggregate.MiniMaxGamePlayStrategy">
+            <summary>
+            <see cref="T:Onitama.Core.PlayerAggregate.Contracts.IGamePlayStrategy"/> that uses the mini-max algorithm (https://en.wikipedia.org/wiki/Minimax).
+            </summary>
+            <remarks>
+            This is an EXTRA. Not needed to implement the minimal requirements.
+            Also when implementing the (AI) extra, it is not needed to alter code in this class.
+            It should work as is.
+            </remarks>
+        </member>
+        <member name="T:Onitama.Core.PlayerAggregate.PlayerBase">
+            <inheritdoc cref="T:Onitama.Core.PlayerAggregate.Contracts.IPlayer"/>
+        </member>
+        <member name="M:Onitama.Core.PlayerAggregate.PlayerBase.#ctor(Onitama.Core.PlayerAggregate.Contracts.IPlayer)">
+            <summary>
+            Creates a player that is a copy of an other player.
+            </summary>
+            <remarks>
+            This is an EXTRA. Not needed to implement the minimal requirements.
+            To make the mini-max algorithm for an AI game play strategy work, this constructor should be implemented.
+            </remarks>
+        </member>
+        <member name="T:Onitama.Core.PlayMatAggregate.Contracts.IPlayMat">
+            <summary>
+            Represents the play mat of the game.
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.PlayMatAggregate.Contracts.IPlayMat.Grid">
+            <summary>
+            The square grid of the play mat.
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.PlayMatAggregate.Contracts.IPlayMat.Size">
+            <summary>
+            The size of the play mat (e.g. 5 for a 5x5 grid).
+            </summary>
+        </member>
+        <member name="M:Onitama.Core.PlayMatAggregate.Contracts.IPlayMat.PositionSchoolOfPlayer(Onitama.Core.PlayerAggregate.Contracts.IPlayer)">
+            <summary>
+            Positions the school of the player on the play mat.
+            The direction of the player is used to determine the position of the school
+            (e.g. when the player is playing north, the school is positioned in the bottom row of the <see cref="P:Onitama.Core.PlayMatAggregate.Contracts.IPlayMat.Grid"/>).
+            The master is positioned in the middle of the row and the students are positioned on the left and right of the master.
+            </summary>
+            <param name="player">The player whose school needs to be positioned on the mat</param>
+        </member>
+        <member name="M:Onitama.Core.PlayMatAggregate.Contracts.IPlayMat.GetValidMoves(Onitama.Core.SchoolAggregate.Contracts.IPawn,Onitama.Core.MoveCardAggregate.Contracts.IMoveCard,Onitama.Core.Util.Direction)">
+            <summary>
+            Retrieves the valid moves for a pawn when playing a specific move card in a specific direction.
+            From all the possible target coordinates specified by the move card,
+            only the moves that are not out of bounds and do not capture a friendly pawn are returned.
+            </summary>
+            <param name="pawn">The pawn that will possibly be moved</param>
+            <param name="card">The move card the pawn will use</param>
+            <param name="playerDirection">The direction in which the owner of the pawn is playing</param>
+        </member>
+        <member name="M:Onitama.Core.PlayMatAggregate.Contracts.IPlayMat.ExecuteMove(Onitama.Core.GameAggregate.Contracts.IMove,Onitama.Core.SchoolAggregate.Contracts.IPawn@)">
+            <summary>
+            Executes a move on the play mat, but only if the move is valid.
+            </summary>
+            <param name="move">The move to execute</param>
+            <param name="capturedPawn">Will contain the captured pawn if a pawn is captured by the move, null otherwise</param>
+            <remarks>
+            The execution of the move results in the position of the pawn being updated on the play mat and in the pawn instance itself.
+            </remarks>
+        </member>
+        <member name="T:Onitama.Core.PlayMatAggregate.PlayMat">
+            <inheritdoc cref="T:Onitama.Core.PlayMatAggregate.Contracts.IPlayMat"/>
+        </member>
+        <member name="M:Onitama.Core.PlayMatAggregate.PlayMat.#ctor(Onitama.Core.PlayMatAggregate.Contracts.IPlayMat,Onitama.Core.PlayerAggregate.Contracts.IPlayer[])">
+             <summary>
+             Creates a play mat that is a copy of another play mat
+             </summary>
+             <param name="otherPlayMat">The play mat to copy</param>
+             <param name="copiedPlayers">
+             Copies of the players (with their school)
+             that should be used to position pawn on the copy of the <paramref name="otherPlayMat"/>.</param>
+             <remarks>
+             This is an EXTRA. Not needed to implement the minimal requirements.
+             To make the mini-max algorithm for an AI game play strategy work, this constructor should be implemented.
+             </remarks>
+            
+        </member>
+        <member name="T:Onitama.Core.SchoolAggregate.Contracts.IPawn">
+            <summary>
+            Represents a pawn in the game (e.g. a student or a master)
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.SchoolAggregate.Contracts.IPawn.Id">
+            <summary>
+            The unique identifier of the pawn
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.SchoolAggregate.Contracts.IPawn.OwnerId">
+            <summary>
+            The unique identifier of the player that owns the pawn
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.SchoolAggregate.Contracts.IPawn.Type">
+            <summary>
+            The type of the pawn (student, master)
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.SchoolAggregate.Contracts.IPawn.Position">
+            <summary>
+            The position of the pawn on the play mat.
+            Is null when the pawn is not on the mat (e.g. when it was taken by an enemy pawn)
+            </summary>
+        </member>
+        <member name="T:Onitama.Core.SchoolAggregate.Contracts.ISchool">
+            <summary>
+            Represents a school (one master and 4 students)
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.SchoolAggregate.Contracts.ISchool.Master">
+            <summary>
+            The master of the school
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.SchoolAggregate.Contracts.ISchool.Students">
+            <summary>
+            The students of the school (4 students)
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.SchoolAggregate.Contracts.ISchool.AllPawns">
+            <summary>
+            All the pawns of the school (one master and 4 students)
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.SchoolAggregate.Contracts.ISchool.TempleArchPosition">
+            <summary>
+            The position on the play mat of the temple arch of the school
+            </summary>
+        </member>
+        <member name="M:Onitama.Core.SchoolAggregate.Contracts.ISchool.GetPawn(System.Guid)">
+            <summary>
+            Retrieves a pawn (student or master) by its unique identifier.
+            Returns null if the pawn is not found.
+            </summary>
+            <param name="pawnId">The unique identifier of the pawn</param>
+        </member>
+        <member name="T:Onitama.Core.SchoolAggregate.Pawn">
+            <inheritdoc cref="T:Onitama.Core.SchoolAggregate.Contracts.IPawn"/>
+        </member>
+        <member name="T:Onitama.Core.SchoolAggregate.School">
+            <inheritdoc cref="T:Onitama.Core.SchoolAggregate.Contracts.ISchool"/>
+        </member>
+        <member name="P:Onitama.Core.SchoolAggregate.School.Master">
+            <summary>
+            Creates a school that is a copy of another school.
+            </summary>
+            <remarks>
+            This is an EXTRA. Not needed to implement the minimal requirements.
+            To make the mini-max algorithm for an AI game play strategy work, this constructor should be implemented.
+            </remarks>
+        </member>
+        <member name="T:Onitama.Core.TableAggregate.Contracts.ITable">
+            <summary>
+            A (virtual) table where players can join and play a game.
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.TableAggregate.Contracts.ITable.Id">
+            <summary>
+            The unique identifier of the table.
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.TableAggregate.Contracts.ITable.Preferences">
+            <summary>
+            The preferences of the table. This determines game play options like the number of players and the play mat size.
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.TableAggregate.Contracts.ITable.OwnerPlayerId">
+            <summary>
+            The unique identifier of the player who created the table.
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.TableAggregate.Contracts.ITable.SeatedPlayers">
+            <summary>
+            The players who are currently seated at the table.
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.TableAggregate.Contracts.ITable.HasAvailableSeat">
+            <summary>
+            Indicates whether there is an available seat at the table.
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.TableAggregate.Contracts.ITable.GameId">
+            <summary>
+            The unique identifier of the game that is being played at the table.
+            When no game is started yet, this property is set to <see cref="F:System.Guid.Empty"/>.
+            </summary>
+        </member>
+        <member name="M:Onitama.Core.TableAggregate.Contracts.ITable.Join(Onitama.Core.UserAggregate.User)">
+            <summary>
+            Adds a player to the table.
+            </summary>
+            <param name="user">User for which a player should be created</param>
+        </member>
+        <member name="M:Onitama.Core.TableAggregate.Contracts.ITable.Leave(System.Guid)">
+            <summary>
+            Removes a player from the table.
+            </summary>
+            <param name="userId">Unique identifier of the user (player) that wants to leave the table</param>
+        </member>
+        <member name="M:Onitama.Core.TableAggregate.Contracts.ITable.FillWithArtificialPlayers(Onitama.Core.PlayerAggregate.Contracts.IGamePlayStrategy)">
+            <summary>
+            EXTRA: Fills the table with computer players.
+            </summary>
+            <param name="gamePlayStrategy">Strategy that should be used by the AI players to determine their next move</param>
+            <remarks>This is an EXTRA. Not needed to implement the minimal requirements.</remarks>
+        </member>
+        <member name="T:Onitama.Core.TableAggregate.Contracts.ITableFactory">
+            <summary>
+            Used to create new tables.
+            </summary>
+        </member>
+        <member name="M:Onitama.Core.TableAggregate.Contracts.ITableFactory.CreateNewForUser(Onitama.Core.UserAggregate.User,Onitama.Core.TableAggregate.TablePreferences)">
+            <summary>
+            Creates a new table for a user with the given preferences.
+            The user is automatically joined to the table and becomes the owner of the table.
+            </summary>
+            <param name="user">The user</param>
+            <param name="preferences">Determine the game options (e.g. play mat size, number of players, ...)</param>
+        </member>
+        <member name="T:Onitama.Core.TableAggregate.Contracts.ITableManager">
+            <summary>
+            Manages all the tables of the application
+            </summary>
+        </member>
+        <member name="M:Onitama.Core.TableAggregate.Contracts.ITableManager.AddNewTableForUser(Onitama.Core.UserAggregate.User,Onitama.Core.TableAggregate.TablePreferences)">
+            <summary>
+            Creates a new table for a user with the given preferences.
+            </summary>
+        </member>
+        <member name="M:Onitama.Core.TableAggregate.Contracts.ITableManager.JoinTable(System.Guid,Onitama.Core.UserAggregate.User)">
+            <summary>
+            Joins a user to a table.
+            </summary>
+        </member>
+        <member name="M:Onitama.Core.TableAggregate.Contracts.ITableManager.LeaveTable(System.Guid,Onitama.Core.UserAggregate.User)">
+            <summary>
+            Removes a user from a table.
+            </summary>
+        </member>
+        <member name="M:Onitama.Core.TableAggregate.Contracts.ITableManager.FillWithArtificialPlayers(System.Guid,Onitama.Core.UserAggregate.User)">
+            <summary>
+            EXTRA: Fills the table with computer players.
+            </summary>
+            <remarks>This is an EXTRA. Not needed to implement the minimal requirements.</remarks>
+        </member>
+        <member name="M:Onitama.Core.TableAggregate.Contracts.ITableManager.StartGameForTable(System.Guid,Onitama.Core.UserAggregate.User)">
+            <summary>
+            Starts a game for a table.
+            </summary>
+        </member>
+        <member name="M:Onitama.Core.TableAggregate.Contracts.ITableRepository.Add(Onitama.Core.TableAggregate.Contracts.ITable)">
+            <summary>
+            Adds a table to storage.
+            </summary>
+        </member>
+        <member name="M:Onitama.Core.TableAggregate.Contracts.ITableRepository.Get(System.Guid)">
+            <summary>
+            Gets a table to storage.
+            </summary>
+            <exception cref="T:Onitama.Core.Util.DataNotFoundException">When no table is found</exception>
+        </member>
+        <member name="M:Onitama.Core.TableAggregate.Contracts.ITableRepository.Remove(System.Guid)">
+            <summary>
+            Removes a table from storage.
+            </summary>
+            <param name="tableId">The identifier of the table</param>
+            <exception cref="T:Onitama.Core.Util.DataNotFoundException">When no table is found</exception>
+        </member>
+        <member name="M:Onitama.Core.TableAggregate.Contracts.ITableRepository.FindTablesWithAvailableSeats">
+            <summary>
+            Finds all the tables in storage that have a seat available.
+            </summary>
+        </member>
+        <member name="T:Onitama.Core.TableAggregate.TableFactory">
+            <inheritdoc cref="T:Onitama.Core.TableAggregate.Contracts.ITableFactory"/>
+        </member>
+        <member name="T:Onitama.Core.TableAggregate.TableManager">
+            <summary>
+            Manages operations related to game tables, such as creating new tables, joining and leaving tables,
+            starting games, and filling tables with artificial players.
+            </summary>
+        </member>
+        <member name="M:Onitama.Core.TableAggregate.TableManager.AddNewTableForUser(Onitama.Core.UserAggregate.User,Onitama.Core.TableAggregate.TablePreferences)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Onitama.Core.TableAggregate.TableManager.JoinTable(System.Guid,Onitama.Core.UserAggregate.User)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Onitama.Core.TableAggregate.TableManager.LeaveTable(System.Guid,Onitama.Core.UserAggregate.User)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Onitama.Core.TableAggregate.TableManager.FillWithArtificialPlayers(System.Guid,Onitama.Core.UserAggregate.User)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Onitama.Core.TableAggregate.TableManager.StartGameForTable(System.Guid,Onitama.Core.UserAggregate.User)">
+            <inheritdoc/>
+        </member>
+        <member name="P:Onitama.Core.TableAggregate.TablePreferences.NumberOfPlayers">
+            <summary>
+            Number of players that can take part in the game.
+            The default value is 2.
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.TableAggregate.TablePreferences.PlayerMatSize">
+            <summary>
+            Size of the player mat (= number of rows or columns).
+            The default value is 5.
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.TableAggregate.TablePreferences.MoveCardSet">
+            <summary>
+            Set of move cards to use.
+            The default value is the original set of 16 cards.
+            </summary>
+        </member>
+        <member name="T:Onitama.Core.Util.Contracts.ICoordinate">
+            <summary>
+            Represents a coordinate on a <see cref="T:Onitama.Core.PlayMatAggregate.Contracts.IPlayMat"/>
+            </summary>
+            <remarks>
+            (0,0) is in the bottom left corner of the play mat.
+            </remarks>
+        </member>
+        <member name="P:Onitama.Core.Util.Contracts.ICoordinate.Row">
+            <summary>
+            The index of the row on the play mat.
+            The bottom row has index 0. The top row has index <see cref="P:Onitama.Core.PlayMatAggregate.Contracts.IPlayMat.Size"/> - 1"/>
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.Util.Contracts.ICoordinate.Column">
+            <summary>
+            The index of the column on the play mat.
+            The leftmost column has index 0. The rightmost column has index <see cref="P:Onitama.Core.PlayMatAggregate.Contracts.IPlayMat.Size"/> - 1"/>
+            </summary>
+        </member>
+        <member name="M:Onitama.Core.Util.Contracts.ICoordinate.IsOutOfBounds(System.Int32)">
+            <summary>
+            Returns true if the coordinate is outside the play mat
+            </summary>
+            <param name="playMatSize">The size of the play mat</param>
+        </member>
+        <member name="M:Onitama.Core.Util.Contracts.ICoordinate.GetNeighbor(Onitama.Core.Util.Direction)">
+            <summary>
+            Returns the neighbor of this coordinate in the specified direction
+            </summary>
+            <param name="direction">The direction to look for the neighbor</param>
+        </member>
+        <member name="M:Onitama.Core.Util.Contracts.ICoordinate.RotateTowards(Onitama.Core.Util.Direction)">
+            <summary>
+            Returns a new coordinate that is rotated towards the specified direction around (0,0).
+            </summary>
+            <param name="direction">The direction the line between (0,0) and the returned coordinate, should point to</param>
+        </member>
+        <member name="M:Onitama.Core.Util.Contracts.ICoordinate.GetDistanceTo(Onitama.Core.Util.Contracts.ICoordinate)">
+            <summary>
+            EXTRA: Returns the length of the straight line between the two coordinates.
+            This could be used to determine how many steps a piece has to move to reach the other coordinate.
+            </summary>
+            <remarks>This is not needed for the minimal requirements, but could be useful when implementing a computer opponent</remarks>
+        </member>
+        <member name="T:Onitama.Core.Util.Coordinate">
+            <inheritdoc cref="T:Onitama.Core.Util.Contracts.ICoordinate"/>
+        </member>
+        <member name="T:Onitama.Core.Util.Direction">
+            <summary>
+            Indicates a direction (e.g. North, South, ...)  
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.Util.Direction.MainDirections">
+            <summary>
+            Array of the 4 main directions (North, South, East, West)
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.Util.Direction.XStep">
+            <summary>
+            Horizontal direction.
+            -1 = left
+            1 = right
+            0 = no horizontal direction 
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.Util.Direction.YStep">
+            <summary>
+            Vertical direction.
+            1 = up
+            -1 = down
+            0 = no vertical direction 
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.Util.Direction.AngleInRadians">
+            <summary>
+            Angle in radians.
+            </summary>
+        </member>
+        <member name="P:Onitama.Core.Util.Direction.PerpendicularDirection">
+            <summary>
+            Get the direction perpendicular (loodrecht) to this direction
+            </summary>
+        </member>
+        <member name="M:Onitama.Core.Util.Direction.CombineWith(Onitama.Core.Util.Direction)">
+            <summary>
+            Combines two directions into one (e.g. South + East = SouthEast)
+            </summary>
+        </member>
+        <member name="M:Onitama.Core.Util.Direction.GetStartCoordinate(System.Int32)">
+            <summary>
+            Returns the start coordinate on a <see cref="T:Onitama.Core.PlayMatAggregate.Contracts.IPlayMat"/> associated with this direction
+            E.g. for the North direction, the start coordinate is in the middle of the bottom row (0, playMatSize).
+            E.g. for the NorthEast direction, the start coordinate is at the left of the bottom row (0,0).
+            E.g. for the SouthWest direction, the start coordinate is at the right of the top row (playMatSize,playMatSize).
+            </summary>
+            <param name="playMatSize">The size of the <see cref="T:Onitama.Core.PlayMatAggregate.Contracts.IPlayMat"/>. Typically, 5.</param>
+        </member>
+    </members>
+</doc>

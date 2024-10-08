@@ -1,0 +1,17 @@
+C:\Users\Tim\Documents\Repos\Backend\Onitama.Infrastructure\bin\Debug\net8.0\Onitama.Infrastructure.deps.json
+C:\Users\Tim\Documents\Repos\Backend\Onitama.Infrastructure\bin\Debug\net8.0\Onitama.Infrastructure.dll
+C:\Users\Tim\Documents\Repos\Backend\Onitama.Infrastructure\bin\Debug\net8.0\Onitama.Infrastructure.pdb
+C:\Users\Tim\Documents\Repos\Backend\Onitama.Infrastructure\bin\Debug\net8.0\Onitama.Core.dll
+C:\Users\Tim\Documents\Repos\Backend\Onitama.Infrastructure\bin\Debug\net8.0\Onitama.Core.pdb
+C:\Users\Tim\Documents\Repos\Backend\Onitama.Infrastructure\bin\Debug\net8.0\Onitama.Core.xml
+C:\Users\Tim\Documents\Repos\Backend\Onitama.Infrastructure\obj\Debug\net8.0\Onitama.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\Tim\Documents\Repos\Backend\Onitama.Infrastructure\obj\Debug\net8.0\Onitama.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Tim\Documents\Repos\Backend\Onitama.Infrastructure\obj\Debug\net8.0\Onitama.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\Tim\Documents\Repos\Backend\Onitama.Infrastructure\obj\Debug\net8.0\Onitama.Infrastructure.AssemblyInfo.cs
+C:\Users\Tim\Documents\Repos\Backend\Onitama.Infrastructure\obj\Debug\net8.0\Onitama.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\Tim\Documents\Repos\Backend\Onitama.Infrastructure\obj\Debug\net8.0\Onitama.Infrastructure.sourcelink.json
+C:\Users\Tim\Documents\Repos\Backend\Onitama.Infrastructure\obj\Debug\net8.0\Onitama..2510DB54.Up2Date
+C:\Users\Tim\Documents\Repos\Backend\Onitama.Infrastructure\obj\Debug\net8.0\Onitama.Infrastructure.dll
+C:\Users\Tim\Documents\Repos\Backend\Onitama.Infrastructure\obj\Debug\net8.0\refint\Onitama.Infrastructure.dll
+C:\Users\Tim\Documents\Repos\Backend\Onitama.Infrastructure\obj\Debug\net8.0\Onitama.Infrastructure.pdb
+C:\Users\Tim\Documents\Repos\Backend\Onitama.Infrastructure\obj\Debug\net8.0\ref\Onitama.Infrastructure.dll
